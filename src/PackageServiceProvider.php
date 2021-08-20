@@ -3,6 +3,7 @@
 namespace VendorName\MyPackageName;
 
 use Illuminate\Support\ServiceProvider;
+use VendorName\MyPackageName\Console\Commands\ExampleDoSomething;
 
 class PackageServiceProvider extends ServiceProvider
 {
@@ -15,6 +16,12 @@ class PackageServiceProvider extends ServiceProvider
         $this->app->bind('helpers', function ($app) {
             return new Helpers();
         });
+        
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                ExampleDoSomething::class,
+            ]);
+        }
     }
 
     public function boot()
